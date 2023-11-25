@@ -9,6 +9,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import cookie from "cookie";
 
 import tailwindStyles from "./tailwind.css";
 import Header from "./components/header";
@@ -38,12 +39,19 @@ export type CartProduct = {
 } & ProductType;
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  return json({
-    cart: {
-      cartItems: (await getCartItems(request)) as CartProduct[],
-      cartOpened: await getCartOpened(request),
+  const headers = new Headers();
+
+  headers.append("Cache-Control", "max-age=60, stale-while-revalidate=600");
+
+  return json(
+    {
+      cart: {
+        cartItems: (await getCartItems(request)) as CartProduct[],
+        cartOpened: await getCartOpened(request),
+      },
     },
-  });
+    { headers }
+  );
 }
 
 export default function App() {
