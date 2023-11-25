@@ -4,3 +4,9 @@ node_modules
 /build
 /public/build
 .env
+
+# sst
+.sst
+
+# sst
+.sst
