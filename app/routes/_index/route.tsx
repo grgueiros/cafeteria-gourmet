@@ -61,7 +61,7 @@ export default function Index() {
           />
         </Form>
       </div>
-      {data.items.products.length ? (
+      {data.items.products?.length ? (
         <ul className="grid grid-cols-1 gap-8 md:grid-cols-5">
           {data.items.products.map((product) => (
             <Product key={product.id} product={product} />

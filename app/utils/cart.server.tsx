@@ -1,11 +1,13 @@
 import * as cookie from "cookie";
 import type { ProductType } from "~/routes/_index/route";
 
-const cookieName = "cart_items";
+const itemsCookieName = "cart_items";
+const openedCookieName = "cart_opened";
 
 export async function getCartItems(request: Request) {
   const cookieHeader = request.headers.get("cookie");
-  const cookieValue = cookieHeader && cookie.parse(cookieHeader)[cookieName];
+  const cookieValue =
+    cookieHeader && cookie.parse(cookieHeader)[itemsCookieName];
 
   const parsed: { id: string; qtd: number }[] = JSON.parse(cookieValue || "[]");
 
@@ -25,7 +27,8 @@ export async function getCartItems(request: Request) {
 
 export async function setCartItem(request: Request, itemId: string) {
   const cookieHeader = request.headers.get("cookie");
-  const cookieValue = cookieHeader && cookie.parse(cookieHeader)[cookieName];
+  const cookieValue =
+    cookieHeader && cookie.parse(cookieHeader)[itemsCookieName];
 
   const parsed: { id: string; qtd: number }[] = JSON.parse(cookieValue || "[]");
 
@@ -35,7 +38,23 @@ export async function setCartItem(request: Request, itemId: string) {
     parsed[parsed.findIndex((item) => item.id === itemId)].qtd += 1;
   }
 
-  return cookie.serialize(cookieName, JSON.stringify(parsed), {
+  return cookie.serialize(itemsCookieName, JSON.stringify(parsed), {
+    path: "/",
+  });
+}
+
+export async function getCartOpened(request: Request) {
+  const cookieHeader = request.headers.get("cookie");
+  const cookieValue =
+    cookieHeader && cookie.parse(cookieHeader)[openedCookieName];
+
+  const parsed: boolean = Boolean(JSON.parse(cookieValue || "false"));
+
+  return parsed;
+}
+
+export async function setCartOpened(opened: boolean) {
+  return cookie.serialize(openedCookieName, JSON.stringify(opened), {
     path: "/",
   });
 }

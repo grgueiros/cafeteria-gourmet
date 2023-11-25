@@ -1,16 +1,18 @@
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { setCartItem } from "~/utils/cart.server";
+import { setCartItem, setCartOpened } from "~/utils/cart.server";
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
 
   const item = formData.get("item") as string;
 
+  const headers = new Headers();
+  headers.append("Set-Cookie", await setCartItem(request, item));
+  headers.append("Set-Cookie", await setCartOpened(true));
+
   const responseInit = {
-    headers: {
-      "set-cookie": await setCartItem(request, item),
-    },
+    headers,
   };
 
   return json({ success: true }, responseInit);

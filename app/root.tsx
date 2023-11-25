@@ -12,7 +12,7 @@ import {
 
 import tailwindStyles from "./tailwind.css";
 import Header from "./components/header";
-import { getCartItems } from "./utils/cart.server";
+import { getCartItems, getCartOpened } from "./utils/cart.server";
 import type { ProductType } from "./routes/_index/route";
 
 export const links: LinksFunction = () => [
@@ -39,8 +39,9 @@ export type CartProduct = {
 
 export async function loader({ request }: LoaderFunctionArgs) {
   return json({
-    data: {
+    cart: {
       cartItems: (await getCartItems(request)) as CartProduct[],
+      cartOpened: await getCartOpened(request),
     },
   });
 }
@@ -59,7 +60,11 @@ export default function App() {
         <main className="w-100 max-w-[1472px] mx-auto px-4 py-20">
           <Outlet />
         </main>
-        <ScrollRestoration />
+        <ScrollRestoration
+          getKey={(location) => {
+            return location.pathname;
+          }}
+        />
         <Scripts />
         <LiveReload />
       </body>
