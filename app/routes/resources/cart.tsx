@@ -1,6 +1,6 @@
 import { ShoppingCart } from "@phosphor-icons/react";
 import * as S from "../../components/sheet";
-import { useCartItems } from "~/utils/request-info";
+import { useCartItems } from "~/utils/cart-items";
 
 export function Cart() {
   const cartItems = useCartItems();
@@ -10,7 +10,7 @@ export function Cart() {
       <S.Sheet>
         <S.SheetTrigger>
           <div className="relative">
-            <ShoppingCart size={24} color="white" />
+            <ShoppingCart data-testid="trigger" size={24} color="white" />
             {cartItems.length ? (
               <span className="absolute bg-red-700 rounded-full text-white w-4 h-4 text-xs">{cartItems.length}</span>
             ) : null}

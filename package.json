@@ -10,7 +10,8 @@
     "typecheck": "tsc",
     "sst:deploy": "sst deploy",
     "sst:dev": "sst dev",
-    "aws:login": "aws sso login --sso-session=grgueiros"
+    "aws:login": "aws sso login --sso-session=grgueiros",
+    "test": "vitest"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.0.14",
@@ -20,6 +21,9 @@
     "@remix-run/node": "^2.3.0",
     "@remix-run/react": "^2.3.0",
     "@remix-run/serve": "^2.3.0",
+    "@testing-library/jest-dom": "^6.1.4",
+    "@testing-library/react": "^14.1.2",
+    "@testing-library/user-event": "^14.5.1",
     "autoprefixer": "^10.4.16",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
@@ -35,16 +39,23 @@
   "devDependencies": {
     "@remix-run/dev": "^2.3.0",
     "@remix-run/eslint-config": "^2.3.0",
+    "@remix-run/testing": "^2.3.1",
     "@types/cookie": "^0.5.4",
     "@types/cookie-session": "^2.0.48",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^4.2.0",
     "aws-cdk-lib": "2.101.1",
     "constructs": "10.2.69",
     "eslint": "^8.38.0",
+    "happy-dom": "^12.10.3",
+    "jsdom": "^22.1.0",
     "sst": "^2.36.1",
     "tailwindcss": "^3.3.5",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "vite": "^5.0.2",
+    "vite-tsconfig-paths": "^4.2.1",
+    "vitest": "^0.34.6"
   },
   "engines": {
     "node": ">=18.0.0"
