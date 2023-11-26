@@ -36,6 +36,8 @@ export function Cart() {
     fetcher.formData?.get("open") === "true" ||
     (!fetcher.formData && cartOpened);
 
+  console.log({opened})
+
   return (
     <>
       <S.Sheet

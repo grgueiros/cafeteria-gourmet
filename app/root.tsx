@@ -38,7 +38,6 @@ export type CartProduct = {
 } & ProductType;
 
 export async function loader({ request }: LoaderFunctionArgs) {
-
   const url = new URL(request.url);
   const searchQuery = url.searchParams.get("search");
   let queryString = "https://dummyjson.com/products";
@@ -47,20 +46,13 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   const res = await fetch(queryString);
 
-  const headers = new Headers();
-
-  headers.append("Cache-Control", "max-age=60, stale-while-revalidate=600");
-
-  return json(
-    {
-      items: (await res.json()) as { products: ProductType[] },
-      cart: {
-        cartItems: (await getCartItems(request)) as CartProduct[],
-        cartOpened: await getCartOpened(request),
-      },
+  return json({
+    items: (await res.json()) as { products: ProductType[] },
+    cart: {
+      cartItems: (await getCartItems(request)) as CartProduct[],
+      cartOpened: await getCartOpened(request),
     },
-    { headers }
-  );
+  });
 }
 
 export default function App() {
