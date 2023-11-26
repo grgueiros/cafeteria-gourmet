@@ -33,7 +33,7 @@ export async function setCartItem(request: Request, itemId: string) {
   const parsed: { id: string; qtd: number }[] = JSON.parse(cookieValue || "[]");
 
   if (!parsed.find((item) => item.id === itemId)) {
-    parsed.push({ id: itemId, qtd: 1 });
+    parsed.unshift({ id: itemId, qtd: 1 });
   } else {
     parsed[parsed.findIndex((item) => item.id === itemId)].qtd += 1;
   }

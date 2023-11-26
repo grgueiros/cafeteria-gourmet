@@ -1,3 +1,4 @@
+import { useFetcher } from "@remix-run/react";
 import Button from "~/components/button";
 import type { CartProduct } from "~/root";
 
@@ -6,10 +7,14 @@ type CartItemProps = {
 };
 
 export function CartItem({ product }: CartItemProps) {
+  const fetcher = useFetcher();
+
+  const loading = fetcher.state === "loading";
+
   return (
-    <div className="flex gap-3 items-center">
+    <div className="flex flex-col sm:flex-row gap-3 sm:items-center mt-4">
       <img
-        className="h-[130px] aspect-square shrink-0 object-cover"
+        className="w-100 sm:w-[130px] aspect-square shrink-0 object-cover"
         src={product.thumbnail}
         alt={product.title}
       />
@@ -18,11 +23,16 @@ export function CartItem({ product }: CartItemProps) {
         <p className="text-3xl">
           R$ {product.price.toFixed(2).replace(/\./g, ",")}
         </p>
-        <p className="max-w-[240px]">{product.description}</p>
+        <p className="sm:max-w-[240px]">
+          {product.description.substring(0, 72)}...
+        </p>
       </div>
       <div>
-        <p className="text-3xl text-center mb-1">Qtd x{product.qtd}</p>
-        <Button>Remover</Button>
+        <p className="text-3xl sm:text-center mb-1">Qtd x{product.qtd}</p>
+        <fetcher.Form method="POST" action="/action/remove-item">
+          <input type="hidden" name="itemId" value={product.id} />
+          <Button>{loading ? "Removendo..." : "Remover"}</Button>
+        </fetcher.Form>
       </div>
     </div>
   );

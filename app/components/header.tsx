@@ -1,5 +1,4 @@
 import { NavLink } from "@remix-run/react";
-import Button from "./button";
 import { Cart } from "../routes/resources/cart";
 
 export default function Header() {
@@ -10,7 +9,6 @@ export default function Header() {
           <h1 className="text-3xl text-white">Logo</h1>
         </NavLink>
         <nav className="flex gap-4 items-center">
-          <Button variant="secondary">login</Button>
           <Cart />
         </nav>
       </div>

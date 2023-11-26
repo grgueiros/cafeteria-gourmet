@@ -1,8 +1,7 @@
-import { json } from "@remix-run/node";
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { Form, useLoaderData } from "@remix-run/react";
+import type { MetaFunction } from "@remix-run/node";
+import { Form, useRouteLoaderData } from "@remix-run/react";
 import { Product } from "./product";
-import { getCartItems } from "~/utils/cart.server";
+import type { loader as rootLoader } from "~/root";
 
 export const meta: MetaFunction = () => {
   return [
@@ -22,25 +21,8 @@ export type ProductType = {
   thumbnail: string;
 };
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  const url = new URL(request.url);
-  const searchQuery = url.searchParams.get("search");
-  let queryString = "https://dummyjson.com/products";
-  if (searchQuery)
-    queryString = `https://dummyjson.com/products/search?q=${searchQuery}`;
-
-  const res = await fetch(queryString);
-
-  return json({
-    data: {
-      items: (await res.json()) as { products: ProductType[] },
-      cartItems: (await getCartItems(request)) as ProductType[],
-    },
-  });
-}
-
 export default function Index() {
-  const { data } = useLoaderData<typeof loader>();
+  const data = useRouteLoaderData<typeof rootLoader>("root");
 
   return (
     <>
@@ -61,7 +43,7 @@ export default function Index() {
           />
         </Form>
       </div>
-      {data.items.products?.length ? (
+      {data?.items.products?.length ? (
         <ul className="grid grid-cols-1 gap-8 md:grid-cols-5">
           {data.items.products.map((product) => (
             <Product key={product.id} product={product} />

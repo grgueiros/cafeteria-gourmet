@@ -19,8 +19,7 @@ export default {
         coffee: "#3D2923",
         cream: "#E4B374",
         lightCream: "#FFEAE5",
-        successGreen:
-          "linear-gradient(0deg, rgba(255, 255, 255, 0.48) 0%, rgba(255, 255, 255, 0.48) 100%), #008000;",
+        successGreen: "#7ABD7A",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

@@ -8,9 +8,10 @@ type ProductProps = {
 
 export function Product({ product }: ProductProps) {
   const { id, price, thumbnail, title } = product;
-  const fetcher = useFetcher({key: 'cart_item'});
+  const fetcher = useFetcher({ key: "cart_item" });
 
-  const pending = fetcher.state === "loading" && fetcher.formData?.get('item') === id;
+  const pending =
+    fetcher.state === "loading" && fetcher.formData?.get("item") === id;
 
   return (
     <li key={id}>
@@ -33,8 +34,8 @@ export function Product({ product }: ProductProps) {
       </h3>
       <fetcher.Form method="POST" action="/action/add-item">
         <input type="hidden" name="item" value={id} />
-        <Button type="submit" className="w-full">
-          {pending ? "Adicionando" : "Comprar"}
+        <Button type="submit" className="w-full text-base">
+          {pending ? "Adicionando" : "Adicionar ao Carrinho"}
         </Button>
       </fetcher.Form>
     </li>
