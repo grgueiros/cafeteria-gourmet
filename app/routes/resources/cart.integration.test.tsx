@@ -33,7 +33,11 @@ vi.spyOn(cartItems, "useCart").mockImplementation(() => ({
 }));
 
 vi.spyOn(reactRemix, "useFetcher").mockImplementation(() => {
-  return { state: "idle", submit: () => {}, Form: "form" };
+  return {
+    state: "idle",
+    submit: () => {},
+    Form: "form",
+  } as unknown as reactRemix.FetcherWithComponents<unknown>;
 });
 
 test("cart should open correctly", async () => {
