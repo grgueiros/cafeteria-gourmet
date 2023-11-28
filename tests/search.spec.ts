@@ -24,7 +24,9 @@ test.describe("Home", () => {
       "https://cafeteria.gabrielgueiros.com.br/?search=cereal&_data=root"
     );
 
-    await new Promise((res) => setTimeout(() => res(true), 500));
-    expect(await page.locator("li").all()).toHaveLength(1);
+    await expect(async () => {
+      const items = await page.locator("li").all();
+      expect(items).toHaveLength(1);
+    }).toPass();
   });
 });
