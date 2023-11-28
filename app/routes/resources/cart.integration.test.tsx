@@ -5,6 +5,7 @@ import { Cart } from "./cart";
 import { createRemixStub } from "@remix-run/testing";
 import { json } from "@remix-run/node";
 import * as cartItems from "~/utils/cart-items";
+import * as reactRemix from "@remix-run/react";
 import userEvent from "@testing-library/user-event";
 
 const RemixStub = createRemixStub([
@@ -17,14 +18,36 @@ const RemixStub = createRemixStub([
   },
 ]);
 
-vi.spyOn(cartItems, "useCartItems").mockImplementationOnce(() => []);
+vi.spyOn(cartItems, "useCart").mockImplementation(() => ({
+  cartItems: [
+    {
+      id: "1",
+      description: "test",
+      price: 29.9,
+      qtd: 2,
+      thumbnail: "/image.png",
+      title: "title",
+    },
+  ],
+  cartOpened: true,
+}));
+
+vi.spyOn(reactRemix, "useFetcher").mockImplementation(() => {
+  return { state: "idle", submit: () => {}, Form: "form" };
+});
 
 test("cart should open correctly", async () => {
   render(<RemixStub />);
 
-  const triggerButton = await screen.findByTestId("trigger");
+  expect(await screen.findByText(/meu carrinho/i)).toBeInTheDocument();
+  expect(screen.getByText(/qtd x2/i)).toBeInTheDocument();
+  expect(screen.getByText(/Total R\$ 59,80/)).toBeInTheDocument();
 
-  await userEvent.click(triggerButton);
+  const paymentButton = screen.getByRole("button", {
+    name: /efetuar pagamento/i,
+  });
 
-  expect(screen.getByText("Are you sure absolutely sure?")).toBeInTheDocument();
+  await userEvent.click(paymentButton);
+
+  expect(await screen.findByText(/parabéns/i)).toBeInTheDocument();
 });

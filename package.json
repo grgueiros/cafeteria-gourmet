@@ -37,11 +37,13 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@playwright/test": "^1.40.0",
     "@remix-run/dev": "^2.3.0",
     "@remix-run/eslint-config": "^2.3.0",
     "@remix-run/testing": "^2.3.1",
     "@types/cookie": "^0.5.4",
     "@types/cookie-session": "^2.0.48",
+    "@types/node": "^20.10.0",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^4.2.0",

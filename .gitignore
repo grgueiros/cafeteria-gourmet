@@ -10,3 +10,7 @@ node_modules
 
 # sst
 .sst
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
