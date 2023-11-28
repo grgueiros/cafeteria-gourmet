@@ -1,24 +1,44 @@
-name: Playwright Tests
+name:
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches: [main]
+    # Concurrency group name ensures concurrent workflow runs wait for any in-progress job to finish
+
+concurrency:
+  group: merge-${{ github.ref }}
+
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read # This is required for actions/checkout
+
 jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 18
-    - name: Install dependencies
-      run: npm install -g pnpm && pnpm install
-    - name: Unit and Integration tests
-      run: pnpm test
-    - name: Install Playwright Browsers
-      run: pnpm exec playwright install --with-deps
-    - name: Run Playwright tests
-      run: pnpm exec playwright test
-    
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm install -g pnpm && pnpm install
+      - name: Unit and Integration tests
+        run: pnpm test
+      - name: Install Playwright Browsers
+        run: pnpm exec playwright install --with-deps
+      - name: Run Playwright tests
+        run: pnpm exec playwright test
+  DeployApp:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git clone the repository
+        uses: actions/checkout@v3
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::171583037888:role/GitHub
+          role-duration-seconds: 14390
+          aws-region: us-east-1
+      - name: Deploy app
+        run: |
+          npm i && npx sst deploy --stage prod
