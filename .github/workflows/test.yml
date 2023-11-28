@@ -34,10 +34,9 @@ jobs:
       - name: Git clone the repository
         uses: actions/checkout@v3
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::171583037888:role/GitHub
-          role-duration-seconds: 14390
+          role-to-assume: arn:aws:iam::171583037888:role/Github
           aws-region: us-east-1
       - name: Deploy app
         run: |
