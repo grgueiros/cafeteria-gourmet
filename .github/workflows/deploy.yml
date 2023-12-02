@@ -2,7 +2,6 @@ name:
 on:
   push:
     branches: [main]
-    # Concurrency group name ensures concurrent workflow runs wait for any in-progress job to finish
 
 concurrency:
   group: merge-${{ github.ref }}
@@ -12,7 +11,7 @@ permissions:
   contents: read # This is required for actions/checkout
 
 jobs:
-  test:
+  Test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -30,13 +29,14 @@ jobs:
         run: pnpm exec playwright test
   DeployApp:
     runs-on: ubuntu-latest
+    needs: Test
     steps:
       - name: Git clone the repository
         uses: actions/checkout@v3
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::171583037888:role/Github
+          role-to-assume: arn:aws:iam::072845907173:role/GitHub
           aws-region: us-east-1
       - name: Deploy app
         run: |
