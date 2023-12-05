@@ -45,7 +45,7 @@ export default function Index() {
       </div>
       {data?.items.products?.length ? (
         <ul className="grid grid-cols-1 gap-8 md:grid-cols-5">
-          {data.items.products.map((product) => (
+          {[...data?.items.products].reverse().map((product) => (
             <Product key={product.id} product={product} />
           ))}
         </ul>
