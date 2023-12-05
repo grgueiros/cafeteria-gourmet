@@ -14,6 +14,7 @@ import tailwindStyles from "./tailwind.css";
 import Header from "./components/header";
 import { getCartItems, getCartOpened } from "./utils/cart.server";
 import type { ProductType } from "./routes/_index/route";
+import Footer from "./components/footer";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwindStyles },
@@ -69,6 +70,7 @@ export default function App() {
         <main className="w-100 max-w-[1472px] mx-auto px-4 py-20">
           <Outlet />
         </main>
+        <Footer/>
         <ScrollRestoration
           getKey={(location) => {
             return location.pathname;

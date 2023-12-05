@@ -17,14 +17,16 @@ export default function ProductPage() {
   const { price, title, thumbnail, description, id } = product;
 
   return (
-    <div>
-      <img src={thumbnail} alt={title} />
+    <div className="flex flex-col md:flex-row gap-5">
+      <img className="aspect-square object-cover" src={thumbnail} alt={title} />
       <div>
-        <h1>{title}</h1>
-        <h2>Descrição</h2>
-        <p>{description}</p>
+        <h1 className="text-4xl mb-3 capitalize">{title}</h1>
+        <h2 className="text-xl">Descrição:</h2>
+        <p className="max-w-[600px]">{description}</p>
 
-        <span>Preço: R$ {price.toFixed(2).toString().replace(/\./, ",")}</span>
+        <span className="my-3 text-3xl block">
+          Preço: R$ {price.toFixed(2).toString().replace(/\./, ",")}
+        </span>
         <fetcher.Form method="POST" action="/action/add-item">
           <input type="hidden" name="item" value={id} />
           <Button type="submit">Adicionar ao Carrinho</Button>
