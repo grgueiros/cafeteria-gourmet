@@ -4,7 +4,7 @@ test.describe("Cart", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("https://cafeteria.gabrielgueiros.com.br/");
     await page
-      .getByRole("button", { name: "Adicionar ao Carrinho" })
+      .getByRole("button", { name: "Adicionar ao Carrinho" }) 
       .first()
       .click();
   });
