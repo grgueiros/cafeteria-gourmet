@@ -28,5 +28,4 @@ jobs:
       - name: Upload source maps to S3
         shell: bash
         run: |
-          aws s3 cp chunks-folder-sample s3://grgueiros-test/${{ github.sha }} --recursive --exclude "*" --include ".map"
-          ls ./chunks-folder-sample
+          aws s3 cp ./chunks-folder-sample s3://grgueiros-test/${{ github.sha }} --recursive --exclude "*" --include ".map"
