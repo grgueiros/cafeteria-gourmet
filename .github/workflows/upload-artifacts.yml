@@ -1,0 +1,31 @@
+name: Upload Artifacts
+
+on: [push]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-artifact
+          path: ./chunks-folder-sample/**/*.map
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::072845907173:role/GitHub
+          aws-region: us-east-1
+          audience: sts.amazonaws.com
+
+      - name: Upload source maps to S3
+        shell: bash
+        run: |
+          aws s3 cp ./chunks-folder-sample s3://grgueiros-test/${{ github.sha }} --recursive --exclude "*" --include "*.map"
